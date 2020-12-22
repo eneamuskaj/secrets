@@ -59,8 +59,8 @@ passport.deserializeUser(function (id, done) {
 passport.use(
   new GoogleStrategy(
     {
-      clientID: process.env.client_ID,
-      clientSecret: process.env.client_SECRET,
+      clientID: process.env.CLIENT_ID,
+      clientSecret: process.env.CLIENT_SECRET,
       callbackURL: "http://localhost:3000/auth/google/secrets",
       userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo",
     },
@@ -98,9 +98,11 @@ app.get("/register", function (req, res) {
 });
 
 app.get("/secrets", function (req, res) {
-  User.find({
-    secret: { $ne: null },
-    function(err, foundUsers) {
+  User.find(
+    {
+      secret: { $ne: null },
+    },
+    function (err, foundUsers) {
       if (err) {
         console.log(err);
       } else {
@@ -108,8 +110,8 @@ app.get("/secrets", function (req, res) {
           res.render("secrets", { usersWithSecrets: foundUsers });
         }
       }
-    },
-  });
+    }
+  );
 });
 
 app.get("/submit", function (req, res) {
